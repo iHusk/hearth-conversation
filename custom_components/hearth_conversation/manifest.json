@@ -1,0 +1,11 @@
+{
+  "domain": "hearth_conversation",
+  "name": "Hearth Conversation",
+  "codeowners": ["@thayes"],
+  "config_flow": true,
+  "dependencies": ["conversation"],
+  "documentation": "https://github.com/thayes/hearth-conversation",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "version": "1.0.0"
+}

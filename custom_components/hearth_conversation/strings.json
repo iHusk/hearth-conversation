@@ -1,0 +1,47 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to OpenClaw",
+        "description": "Enter the URL and API key for your OpenClaw gateway.",
+        "data": {
+          "base_url": "Gateway URL",
+          "api_key": "API Key / Token",
+          "verify_ssl": "Verify SSL certificate",
+          "agent_id": "Agent ID"
+        },
+        "data_description": {
+          "base_url": "The URL of your OpenClaw gateway (e.g. https://clawd.example.com)",
+          "api_key": "Bearer token for the gateway API",
+          "agent_id": "Which OpenClaw agent to talk to (default: main)"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Cannot reach the gateway. Check the URL and network.",
+      "invalid_auth": "Invalid API key or token.",
+      "timeout": "Connection timed out.",
+      "unknown": "An unexpected error occurred."
+    },
+    "abort": {
+      "already_configured": "This gateway is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Hearth Conversation Options",
+        "data": {
+          "system_prompt": "System prompt",
+          "timeout": "Request timeout (seconds)",
+          "max_history": "Max conversation history (messages)"
+        },
+        "data_description": {
+          "system_prompt": "Instructions prepended to every request. Optimized for voice by default.",
+          "timeout": "How long to wait for a response before giving up.",
+          "max_history": "Number of recent messages to include for context."
+        }
+      }
+    }
+  }
+}
