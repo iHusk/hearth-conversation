@@ -80,7 +80,7 @@ class HearthConversationEntity(ConversationEntity):
         max_history = self._entry.options.get(CONF_MAX_HISTORY, DEFAULT_MAX_HISTORY)
         model_override = self._entry.options.get(CONF_MODEL_OVERRIDE, "")
         agent_id = self._entry.data.get(CONF_AGENT_ID, DEFAULT_AGENT_ID)
-        model = model_override if model_override else agent_id
+        model = self._resolve_model(model_override, agent_id)
 
         messages = self._build_messages(chat_log, system_prompt, max_history)
 
@@ -113,6 +113,24 @@ class HearthConversationEntity(ConversationEntity):
             response=response,
             conversation_id=user_input.conversation_id,
         )
+
+    @staticmethod
+    def _resolve_model(model_override: str, agent_id: str) -> str:
+        """Resolve the model string for the OpenClaw API.
+
+        OpenClaw's chatCompletions endpoint uses the model field to route:
+        - Agent names need "agent:" prefix (e.g. "voice" → "agent:voice")
+        - Full model refs like "openai-codex/gpt-5.2-codex" pass through as-is
+        - The default agent_id also gets the "agent:" prefix
+        """
+        raw = model_override.strip() if model_override else ""
+        if not raw:
+            return f"agent:{agent_id}"
+        # Already has a routing prefix or looks like a provider/model ref
+        if "/" in raw or raw.startswith("agent:") or raw.startswith("openclaw/"):
+            return raw
+        # Bare name — treat as agent ID
+        return f"agent:{raw}"
 
     @staticmethod
     def _build_messages(

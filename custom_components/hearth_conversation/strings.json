@@ -38,7 +38,7 @@
           "max_history": "Max conversation history (messages)"
         },
         "data_description": {
-          "model_override": "Use a specific model instead of the agent default (e.g. openai-codex/gpt-5.3-codex-spark). Leave empty to use the agent's configured model.",
+          "model_override": "Agent name (e.g. voice, sentinel) or full model ref (e.g. openai-codex/gpt-5.2-codex). Leave empty to use the default agent.",
           "system_prompt": "Instructions prepended to every request. Optimized for voice by default.",
           "timeout": "How long to wait for a response before giving up.",
           "max_history": "Number of recent messages to include for context."

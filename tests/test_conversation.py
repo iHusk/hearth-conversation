@@ -127,3 +127,42 @@ class TestBuildMessages:
         messages = _build_messages(chat_log, "Sys.", 10)
         assert len(messages) == 3
         assert messages[2]["content"] == "Hello!"
+
+
+def _resolve_model(model_override: str, agent_id: str) -> str:
+    """Mirror of HearthConversationEntity._resolve_model logic."""
+    raw = model_override.strip() if model_override else ""
+    if not raw:
+        return f"agent:{agent_id}"
+    if "/" in raw or raw.startswith("agent:") or raw.startswith("openclaw/"):
+        return raw
+    return f"agent:{raw}"
+
+
+class TestResolveModel:
+
+    def test_empty_override_uses_agent_id(self) -> None:
+        assert _resolve_model("", "main") == "agent:main"
+
+    def test_none_override_uses_agent_id(self) -> None:
+        assert _resolve_model("", "voice") == "agent:voice"
+
+    def test_bare_agent_name_gets_prefix(self) -> None:
+        assert _resolve_model("voice", "main") == "agent:voice"
+
+    def test_bare_agent_name_with_whitespace(self) -> None:
+        assert _resolve_model("  voice  ", "main") == "agent:voice"
+
+    def test_full_model_ref_passes_through(self) -> None:
+        assert _resolve_model("openai-codex/gpt-5.2-codex", "main") == "openai-codex/gpt-5.2-codex"
+
+    def test_agent_prefix_passes_through(self) -> None:
+        assert _resolve_model("agent:voice", "main") == "agent:voice"
+
+    def test_openclaw_prefix_passes_through(self) -> None:
+        assert _resolve_model("openclaw/voice", "main") == "openclaw/voice"
+
+    def test_sentinel_agent(self) -> None:
+        assert _resolve_model("sentinel", "main") == "agent:sentinel"
+
+
