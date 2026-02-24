@@ -9,6 +9,7 @@ CONF_VERIFY_SSL = "verify_ssl"
 CONF_SYSTEM_PROMPT = "system_prompt"
 CONF_TIMEOUT = "timeout"
 CONF_MAX_HISTORY = "max_history"
+CONF_MODEL_OVERRIDE = "model_override"
 
 DEFAULT_BASE_URL = "https://clawd.hayeshousehold.com"
 DEFAULT_AGENT_ID = "main"

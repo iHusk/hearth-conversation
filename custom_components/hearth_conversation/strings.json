@@ -32,11 +32,13 @@
       "init": {
         "title": "Hearth Conversation Options",
         "data": {
+          "model_override": "Model override",
           "system_prompt": "System prompt",
           "timeout": "Request timeout (seconds)",
           "max_history": "Max conversation history (messages)"
         },
         "data_description": {
+          "model_override": "Use a specific model instead of the agent default (e.g. openai-codex/gpt-5.3-codex-spark). Leave empty to use the agent's configured model.",
           "system_prompt": "Instructions prepended to every request. Optimized for voice by default.",
           "timeout": "How long to wait for a response before giving up.",
           "max_history": "Number of recent messages to include for context."

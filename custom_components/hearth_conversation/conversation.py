@@ -22,6 +22,7 @@ from .api import OpenClawApiClient, OpenClawAuthError, OpenClawConnectionError, 
 from .const import (
     CONF_AGENT_ID,
     CONF_MAX_HISTORY,
+    CONF_MODEL_OVERRIDE,
     CONF_SYSTEM_PROMPT,
     DEFAULT_AGENT_ID,
     DEFAULT_MAX_HISTORY,
@@ -77,14 +78,16 @@ class HearthConversationEntity(ConversationEntity):
         """Process a message through OpenClaw."""
         system_prompt = self._entry.options.get(CONF_SYSTEM_PROMPT, DEFAULT_SYSTEM_PROMPT)
         max_history = self._entry.options.get(CONF_MAX_HISTORY, DEFAULT_MAX_HISTORY)
+        model_override = self._entry.options.get(CONF_MODEL_OVERRIDE, "")
         agent_id = self._entry.data.get(CONF_AGENT_ID, DEFAULT_AGENT_ID)
+        model = model_override if model_override else agent_id
 
         messages = self._build_messages(chat_log, system_prompt, max_history)
 
         try:
             response_text = await self._client.chat_completion(
                 messages=messages,
-                agent_id=agent_id,
+                agent_id=model,
             )
         except OpenClawAuthError:
             _LOGGER.error("Authentication failed with OpenClaw gateway")

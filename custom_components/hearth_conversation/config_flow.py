@@ -21,6 +21,7 @@ from .const import (
     CONF_API_KEY,
     CONF_BASE_URL,
     CONF_MAX_HISTORY,
+    CONF_MODEL_OVERRIDE,
     CONF_SYSTEM_PROMPT,
     CONF_TIMEOUT,
     CONF_VERIFY_SSL,
@@ -124,6 +125,12 @@ class HearthOptionsFlow(OptionsFlow):
             step_id="init",
             data_schema=vol.Schema(
                 {
+                    vol.Optional(
+                        CONF_MODEL_OVERRIDE,
+                        default=self.config_entry.options.get(
+                            CONF_MODEL_OVERRIDE, ""
+                        ),
+                    ): str,
                     vol.Optional(
                         CONF_SYSTEM_PROMPT,
                         default=self.config_entry.options.get(
